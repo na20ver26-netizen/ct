@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>NAVER GFA · 커스텀 타겟팅 제안</title>
+<link href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css" rel="stylesheet">
+<style>
+  :root{
+    --blue:#3B76F0; --blue-d:#215AD6; --blue-l:#6E9BFF;
+    --ice:#E3ECFF; --ice2:#F0F5FF; --tint:#F5F8FF;
+    --ink:#1B2333; --gray:#5A6472; --gray-l:#8A93A3;
+    --line:#E6EBF3; --graybar:#D7DCE5; --red:#E06666; --card:#FFFFFF;
+    --shadow:0 12px 44px rgba(27,58,120,.13);
+    --grad:linear-gradient(120deg,#4E86F7 0%,#6BA0FF 52%,#AECCFF 100%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"NanumSquare","Apple SD Gothic Neo","Malgun Gothic",-apple-system,sans-serif;
+    background:#E9EDF5;color:var(--ink);font-weight:400;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;-webkit-font-smoothing:antialiased;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .deck{position:relative;width:min(96vw,1200px);aspect-ratio:16/9;background:var(--card);
+    border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  .slide{position:absolute;inset:0;padding:52px 62px;opacity:0;transform:translateX(22px);
+    transition:opacity .36s ease,transform .36s ease;pointer-events:none;display:flex;flex-direction:column}
+  .slide.active{opacity:1;transform:none;pointer-events:auto}
+
+  .head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .head .emoji{font-size:30px;line-height:1}
+  .head h2{font-size:33px;font-weight:800;letter-spacing:-.02em;line-height:1.12}
+  .subt{font-size:15px;color:var(--blue);font-weight:700;margin-top:8px}
+  .subt.gray{color:var(--gray);font-weight:400}
+  .takeaway{font-size:14.5px;color:var(--ink);margin-top:20px;line-height:1.6;font-weight:400}
+  .takeaway b{color:var(--blue-d);font-weight:800}
+  .page{position:absolute;right:34px;bottom:24px;font-size:11px;color:var(--gray-l);font-weight:700}
+  .conf{position:absolute;left:62px;bottom:24px;font-size:10.5px;color:#B7BEC9}
+  .body{flex:1;display:flex;flex-direction:column;justify-content:center}
+
+  /* cover / close */
+  .cover,.close{background:var(--grad);color:#fff;justify-content:center}
+  .cover .eyebrow{font-size:14px;font-weight:800;letter-spacing:.22em;color:#EAF1FF;opacity:.9;margin-bottom:20px}
+  .cover h1{font-size:54px;font-weight:800;line-height:1.16;letter-spacing:-.02em}
+  .cover p{font-size:18.5px;color:#EDF3FF;margin-top:24px;line-height:1.6;max-width:780px;font-weight:400}
+  .cover .brand{position:absolute;left:62px;bottom:46px;display:flex;align-items:center;gap:12px;font-size:14.5px;color:#DCE8FF;font-weight:700}
+  .nchip{display:inline-flex;align-items:center;gap:8px;font-weight:800;color:#fff}
+  .nchip .n{background:#fff;color:var(--blue);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-size:16px;font-weight:800}
+  .close .c-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;gap:14px}
+  .close h1{font-size:58px;font-weight:800;color:#fff;letter-spacing:.02em}
+  .close p{font-size:16px;color:#EDF3FF;font-weight:400}
+
+  /* limitation rows */
+  .limrows{display:flex;flex-direction:column;gap:16px}
+  .limrow{display:flex;align-items:center;gap:24px;background:var(--tint);border:1px solid var(--line);border-radius:16px;padding:22px 30px}
+  .limrow .lnum{width:54px;height:54px;border-radius:50%;background:#FDE9E9;color:var(--red);font-weight:800;font-size:20px;display:grid;place-items:center;flex:none}
+  .limrow .ltext h3{font-size:19px;font-weight:800;margin-bottom:5px}
+  .limrow .ltext p{font-size:14px;color:var(--gray);line-height:1.55}
+
+  /* 3 orbs (solution) */
+  .orbs3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:14px}
+  .orb3{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6px}
+  .orb3 .ball{width:132px;height:132px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 34% 28%,#BCD3FF 0%,#8FB3FF 45%,#6E9BFF 100%);
+    box-shadow:0 14px 30px rgba(59,118,240,.28);margin-bottom:16px}
+  .orb3 .ball .icon{font-size:44px;line-height:1}
+  .orb3 h3{font-size:17.5px;font-weight:800;margin-bottom:6px}
+  .orb3 p{font-size:13px;color:var(--gray);line-height:1.55;max-width:290px;font-weight:400}
+
+  /* two ways */
+  .ways{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:8px}
+  .way{background:var(--tint);border:1px solid var(--line);border-radius:18px;padding:26px 28px}
+  .way.hl{background:#EAF1FF;border:1.5px solid var(--blue-l)}
+  .wicon{width:60px;height:60px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:30px;box-shadow:0 6px 16px rgba(27,58,120,.1);margin-bottom:16px}
+  .wtag{font-size:12.5px;font-weight:800;color:var(--blue-d);letter-spacing:.03em;margin-bottom:8px}
+  .way h3{font-size:19px;font-weight:800;margin-bottom:8px}
+  .way p{font-size:13.8px;color:var(--gray);line-height:1.6;font-weight:400}
+  .wex{margin-top:14px;background:#fff;border-radius:10px;padding:12px 15px;font-size:13px;color:var(--blue-d);font-weight:700;line-height:1.5}
+  .way:not(.hl) .wex{background:#EEF2F8;color:var(--gray)}
+  .waynote{margin-top:24px;text-align:center;background:#EAF1FF;border-radius:12px;padding:16px;font-size:15px;color:var(--ink);font-weight:400}
+  .waynote b{color:var(--blue-d);font-weight:800}
+
+  /* spectrum */
+  .spec-bar{position:relative;height:56px;border-radius:28px;
+    background:linear-gradient(90deg,#BCD3FF 0%,#6E9BFF 50%,#215AD6 100%);display:flex;align-items:center;justify-content:space-between;padding:0 30px;margin-top:20px}
+  .spec-bar .end{color:#fff;font-weight:800;font-size:15px;text-shadow:0 1px 2px rgba(0,0,0,.12)}
+  .spec-mark{position:absolute;left:50%;top:-16px;transform:translateX(-50%);background:#fff;border:3px solid var(--blue);
+    color:var(--blue-d);font-weight:800;font-size:14px;padding:9px 20px;border-radius:24px;box-shadow:var(--shadow);white-space:nowrap}
+  .spec-mark:after{content:"";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);width:0;height:0;
+    border-left:8px solid transparent;border-right:8px solid transparent;border-top:9px solid var(--blue)}
+  .spec-cards{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;margin-top:40px}
+  .scard{background:var(--tint);border-radius:14px;padding:20px}
+  .scard.mid{background:#EAF1FF;border:1.5px solid var(--blue-l)}
+  .scard h4{font-size:15.5px;font-weight:800;margin-bottom:7px}
+  .scard.mid h4{color:var(--blue-d)}
+  .scard p{font-size:12.8px;color:var(--gray);line-height:1.55;font-weight:400}
+
+  /* stat boxes (신규 발굴) */
+  .qnote{font-size:12.5px;color:var(--gray);margin-bottom:16px;font-weight:400}
+  .qnote b{color:var(--blue-d);font-weight:800}
+  .stat2{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:0}
+  .statbox{background:var(--tint);border-radius:18px;padding:26px 28px;display:flex;flex-direction:column;gap:14px}
+  .statbox .top{display:flex;align-items:baseline;gap:14px}
+  .statbox .big{font-size:64px;font-weight:800;color:var(--blue);line-height:.9;letter-spacing:-.03em}
+  .statbox .big span{font-size:30px}
+  .statbox .cap{font-size:14px;font-weight:800;color:var(--ink);line-height:1.4}
+  .statbox .cap b{color:var(--blue-d)}
+  .spread{display:flex;gap:8px}
+  .sp{flex:1;text-align:center}
+  .sp .track{height:70px;background:#E4EAF4;border-radius:6px;display:flex;align-items:flex-end;overflow:hidden}
+  .sp .track i{display:block;width:100%;background:linear-gradient(180deg,var(--blue-l),var(--blue));border-radius:6px 6px 0 0}
+  .sp .v{font-size:12px;font-weight:800;color:var(--blue-d);margin-top:5px}
+  .sp .l{font-size:10.5px;color:var(--gray-l);margin-top:2px;line-height:1.2}
+
+  /* before/after */
+  .ba{display:grid;grid-template-columns:1fr 64px 1fr;align-items:center;margin-top:14px}
+  .bacol{background:var(--tint);border-radius:16px;padding:24px}
+  .bacol.now{background:#EAF1FF;border:1.5px solid var(--blue-l)}
+  .bacol .lab{display:inline-block;font-size:12px;font-weight:800;padding:5px 13px;border-radius:20px;margin-bottom:14px}
+  .bacol.past .lab{background:#E7EAF0;color:var(--gray)}
+  .bacol.now .lab{background:var(--blue);color:#fff}
+  .checkrow{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--gray);padding:7px 0;border-bottom:1px dashed #D9E0EC}
+  .checkrow .cbox{width:16px;height:16px;border:1.5px solid #B7C0D0;border-radius:4px;flex:none}
+  .bacol.past .note{font-size:12.5px;color:var(--gray-l);margin-top:12px;line-height:1.5}
+  .nlq{background:#fff;border-radius:12px;padding:16px 18px;font-size:16px;font-weight:800;color:var(--blue-d);line-height:1.5;box-shadow:0 4px 14px rgba(59,118,240,.12)}
+  .nlq .q{color:var(--blue-l)}
+  .personas{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .pchip{background:#fff;border:1px solid var(--blue-l);color:var(--blue-d);font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:20px}
+  .arrow-mid{display:grid;place-items:center;font-size:26px;color:var(--blue);font-weight:800}
+
+  /* orbit (perfect circle) */
+  .orbit-wrap{display:grid;grid-template-columns:1fr 360px 1fr;align-items:center;gap:10px;margin-top:6px}
+  .siglab{display:flex;flex-direction:column;gap:30px}
+  .siglab.l{text-align:right}
+  .siglab.r{text-align:left}
+  .sig h4{font-size:16px;font-weight:800;margin-bottom:4px}
+  .sig p{font-size:12.5px;color:var(--gray);line-height:1.5;font-weight:400}
+  .orbit{position:relative;width:340px;height:340px;margin:0 auto}
+  .ring{position:absolute;inset:34px;border:1.5px solid #CBD8F0;border-radius:50%}
+  .center-orb{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle at 36% 30%,#C9DBFF 0%,#9CBCFF 50%,#7AA0FF 100%);display:grid;place-items:center;text-align:center;
+    color:#fff;font-weight:800;font-size:16px;line-height:1.3;box-shadow:0 12px 30px rgba(59,118,240,.3)}
+  .sat{position:absolute;width:52px;height:52px;border-radius:50%;background:#fff;border:1.5px solid #CBD8F0;display:grid;place-items:center;font-size:24px;box-shadow:0 6px 16px rgba(27,58,120,.12)}
+  .sat.t{top:8px;left:50%;transform:translateX(-50%)}
+  .sat.r{right:8px;top:50%;transform:translateY(-50%)}
+  .sat.b{bottom:8px;left:50%;transform:translateX(-50%)}
+  .sat.l{left:8px;top:50%;transform:translateY(-50%)}
+  .sens-note{text-align:center;font-size:12.5px;color:var(--gray);margin-top:18px;font-weight:400}
+  .sens-note b{color:var(--red);font-weight:800}
+
+  /* comparison charts */
+  .cmp3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:14px}
+  .cmp{display:flex;flex-direction:column;align-items:center}
+  .cmp .ct{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:10px}
+  .cmp .ratio{display:flex;align-items:baseline;justify-content:center;gap:6px;margin-bottom:36px}
+  .cmp .ratio .rx{font-size:31px;font-weight:800;color:var(--blue-d);line-height:1;letter-spacing:-.02em}
+  .cmp .ratio .rt{font-size:12.5px;font-weight:700;color:var(--gray)}
+  .cmp .plot{position:relative;height:180px;display:flex;align-items:flex-end;justify-content:center;gap:34px;width:100%}
+  .colw{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .col{width:66px;border-radius:8px 8px 0 0;position:relative}
+  .col.gray{background:var(--graybar)}
+  .col.blue{background:linear-gradient(180deg,var(--blue-l),var(--blue))}
+  .col .cv{position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-size:15px;font-weight:800;color:var(--ink);white-space:nowrap}
+  .col.blue .cv{color:var(--blue-d)}
+  .cl{font-size:12px;color:var(--gray);margin-top:9px;font-weight:700;text-align:center}
+
+  /* process flow */
+  .flow{display:flex;align-items:center;justify-content:center;margin-top:6px}
+  .fstep{display:flex;flex-direction:column;align-items:center;text-align:center;width:185px}
+  .fstep .ball{width:152px;height:152px;border-radius:50%;display:grid;place-items:center;color:#fff;text-align:center;font-size:18px;font-weight:800;line-height:1.3;padding:0 10px}
+  .fstep:nth-child(1) .ball{background:#CFE0FF;color:var(--blue-d)}
+  .fstep:nth-child(3) .ball{background:#9CBCFF}
+  .fstep:nth-child(5) .ball{background:#5A8AF5}
+  .fstep:nth-child(7) .ball{background:var(--blue-d)}
+  .fstep .fl{font-size:14.5px;color:var(--gray);margin-top:18px;line-height:1.4;font-weight:700}
+  .farrow{color:var(--blue-l);font-size:34px;font-weight:800;padding:0 10px;margin-bottom:46px}
+  .proc-callout{margin-top:48px;text-align:center;background:#EAF1FF;border-radius:14px;padding:22px;font-size:17px;color:var(--ink);font-weight:400}
+  .proc-callout b{color:var(--blue-d);font-weight:800}
+
+  /* segment rule */
+  .rule{display:flex;align-items:stretch;justify-content:center;gap:22px;margin-top:6px}
+  .rule-card{background:var(--tint);border:1px solid var(--line);border-radius:18px;padding:30px 44px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:10px;min-width:290px}
+  .rule-card.hl{background:#EAF1FF;border:1.5px solid var(--blue-l)}
+  .rule-card .rlab{font-size:14px;font-weight:700;color:var(--gray)}
+  .rule-card .rval{font-size:34px;font-weight:800;color:var(--blue-d);line-height:1.1}
+  .rule-card .rval span{font-size:18px;color:var(--gray);font-weight:700}
+  .rule-op{display:flex;align-items:center;font-size:34px;color:var(--blue);font-weight:800}
+  .segdots{display:flex;gap:10px;justify-content:center;margin-top:4px}
+  .segdots i{width:30px;height:30px;border-radius:8px;background:var(--blue)}
+  .why{background:var(--tint);border-radius:12px;padding:18px 26px;margin-top:32px;font-size:13.8px;color:var(--gray);line-height:1.6;text-align:center}
+  .why b{color:var(--blue-d);font-weight:800}
+
+  /* nav */
+  .nav{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;
+    background:#fff;border:1px solid var(--line);border-radius:40px;padding:7px 15px;box-shadow:var(--shadow);z-index:20}
+  .nav button{border:none;background:var(--blue);color:#fff;width:33px;height:33px;border-radius:50%;cursor:pointer;font-size:16px;display:grid;place-items:center;transition:.2s}
+  .nav button:hover{background:var(--blue-d)}
+  .nav button:disabled{opacity:.28;cursor:default}
+  .dots{display:flex;gap:6px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#CDD5E2;cursor:pointer;transition:.2s}
+  .dot.active{background:var(--blue);width:22px;border-radius:5px}
+  .counter{font-size:12.5px;font-weight:800;color:var(--gray);min-width:44px;text-align:center}
+  .hint{position:fixed;top:14px;right:18px;font-size:11.5px;color:#98A0AE;z-index:20}
+
+  @media print{
+    @page{size:1200px 675px;margin:0}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;box-shadow:none !important}
+    body{display:block;background:#fff;overflow:visible}
+    .nav,.hint{display:none}
+    .deck{width:1200px;aspect-ratio:auto;height:auto;box-shadow:none;border-radius:0}
+    .slide{position:relative;inset:auto;opacity:1;transform:none;height:675px;overflow:hidden;page-break-after:always}
+    .slide:last-child{page-break-after:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="hint">← → 이동 · P 인쇄(PDF)</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 COVER -->
+  <section class="slide cover active">
+    <div class="eyebrow">NAVER GFA · PROPOSAL</div>
+    <h1>말로 설명하면,<br>원하는 고객이 만들어지는<br>커스텀 타겟팅</h1>
+    <p>정해진 카테고리를 넘어, 원하는 고객을 자연어로 설명하면<br>네이버 유저풀에서 찾아 기존 타겟이 닿지 못한 신규 고객까지 발굴됩니다.</p>
+    <div class="brand"><span class="nchip"><span class="n">N</span> 성과형 디스플레이광고(GFA)</span><span>|</span><span>커스텀 타겟팅 제안</span></div>
+  </section>
+
+  <!-- 2 한계 -->
+  <section class="slide">
+    <div class="head"><span class="emoji">💡</span><h2>기존 타겟팅, 이런 한계에 부딪히고 있습니다</h2></div>
+    <p class="subt gray">관심사·구매의도 카테고리 기반 타겟팅과 스토어타겟(리타겟팅)은 강력하지만, 성장 관점에서 세 가지 벽이 있습니다.</p>
+    <div class="body">
+      <div class="limrows">
+        <div class="limrow"><div class="lnum">01</div><div class="ltext"><h3>신규 고객 발굴이 어려움</h3><p>정해진 카테고리 안의 유저에게만 반복 노출 → 도달이 포화되고, 아직 우리를 모르는 신규 유입이 정체됩니다.</p></div></div>
+        <div class="limrow"><div class="lnum">02</div><div class="ltext"><h3>표현하기 어려운 타겟</h3><p>"이사·신혼을 앞둔 실속형 소비자"처럼 실제 살 것 같은 사람은 카테고리 조합만으로 정의하기 어렵습니다.</p></div></div>
+        <div class="limrow"><div class="lnum">03</div><div class="ltext"><h3>세그먼트 만들기가 번거로움</h3><p>원하는 세그먼트를 만들 때마다 카테고리를 일일이 고르고 조합해야 해서, 손이 많이 가고 번거롭습니다.</p></div></div>
+      </div>
+    </div>
+    <div class="page">02</div>
+  </section>
+
+  <!-- 3 솔루션 (브릿지 + 3 orbs) -->
+  <section class="slide">
+    <div class="head"><span class="emoji">🎯</span><h2>기존 한계를 벗어나, 커스텀 타겟팅이 해결합니다</h2></div>
+    <p class="subt gray">기존 타겟이 놓친 신규 고객까지 넓혀주고, "말로 설명한 고객"을 그대로 찾아주며, 빠르게 만들어지는 방식입니다.</p>
+    <div class="body">
+      <div class="orbs3">
+        <div class="orb3"><div class="ball"><span class="icon">🧲</span></div><h3>기존 타겟이 놓친 신규까지</h3><p>관심사·구매의도에 없던 새로운 고객으로 넓히고, 세그먼트를 주기적으로 갱신해 신규 유저가 계속 유입됩니다.</p></div>
+        <div class="orb3"><div class="ball"><span class="icon">💬</span></div><h3>말로 설명한 고객을 그대로</h3><p>원하는 고객을 자연어로 설명하면 AI가 유저풀에서 찾아줍니다.</p></div>
+        <div class="orb3"><div class="ball"><span class="icon">⚡</span></div><h3>빠르게 만들어집니다</h3><p>최소 1주일 전 요청이면 세그먼트 준비가 완료됩니다.</p></div>
+      </div>
+    </div>
+    <div class="page">03</div>
+  </section>
+
+  <!-- 4 자연어로 설명 -->
+  <section class="slide">
+    <div class="head"><span class="emoji">🗣️</span><h2>이제, 원하는 고객을 '설명'하면 됩니다</h2></div>
+    <p class="subt gray">과거엔 정해진 카테고리로만 세그먼트를 설명할 수 있었다면, 이제는 자연어 문장으로 희망 타겟을 설명하면 됩니다.</p>
+    <div class="body">
+      <div class="ba">
+        <div class="bacol past">
+          <span class="lab">과거 · 카테고리 선택</span>
+          <div class="checkrow"><span class="cbox"></span> 가전제품 관심사</div>
+          <div class="checkrow"><span class="cbox"></span> 냉장고 구매의도</div>
+          <div class="checkrow"><span class="cbox"></span> TV 구매의도</div>
+          <p class="note">정해진 카테고리 조합으로만 세그먼트를 설명할 수 있었습니다.</p>
+        </div>
+        <div class="arrow-mid">→</div>
+        <div class="bacol now">
+          <span class="lab">이제 · 자연어로 설명</span>
+          <div class="nlq"><span class="q">"</span>신혼 준비나 이사를 앞둔 유저를 찾아줘<span class="q">"</span></div>
+          <div class="personas">
+            <span class="pchip">신혼부부</span>
+            <span class="pchip">혼자 사는 1인 가구</span>
+            <span class="pchip">프리미엄 가전 관심 30~40대</span>
+            <span class="pchip">경쟁사 제품 구매할 것 같은 유저</span>
+          </div>
+        </div>
+      </div>
+      <p class="takeaway">→ 광고주는 <b>희망하는 타겟을 자연어로 설명만</b> 하면 됩니다. (단, 인종·종교·병력 등 <b style="color:var(--red)">민감정보는 활용 불가</b>)</p>
+    </div>
+    <div class="page">04</div>
+  </section>
+
+  <!-- 5 리타겟팅과 신규 도달 사이 -->
+  <section class="slide">
+    <div class="head"><span class="emoji">🔀</span><h2>리타겟팅과 신규 도달, 그 사이를 채웁니다</h2></div>
+    <p class="subt gray">리타겟팅은 이미 확보한 유저풀 안에서만 광고합니다. AI 자연어 타겟은 내 광고에 반응한 적 없는 신규 유저까지 발굴해 전환을 만듭니다.</p>
+    <div class="body">
+      <div class="spec-bar">
+        <span class="end">트래픽 · 신규 도달</span>
+        <span class="end">전환 · 리타겟팅</span>
+        <div class="spec-mark">AI 자연어 타겟 = 신규 발굴 + 전환</div>
+      </div>
+      <div class="spec-cards">
+        <div class="scard mid"><h4>AI 자연어 타겟 — 두 마리 토끼</h4><p>기존 광고를 클릭한 적 없는 신규 유저를 발굴하면서도, 의도를 읽어 전환까지 이어냅니다. 트래픽과 전환을 모두 잡습니다.</p></div>
+        <div class="scard"><h4>리타겟팅</h4><p>전환은 강하지만, 이미 잡아둔 유저풀 안에서만 도는 광고라 확장이 없습니다.</p></div>
+      </div>
+    </div>
+    <div class="page">05</div>
+  </section>
+
+  <!-- 6 신규 발굴 -->
+  <section class="slide">
+    <div class="head"><span class="emoji">🧲</span><h2>기존 타겟이 놓친 신규 유저를 발굴합니다</h2></div>
+    <p class="subt gray">커스텀 타겟팅(AI 자연어) CBT 결과 · 평균 데이터</p>
+    <div class="body">
+      <div class="qnote">막대 = 자연어 기반 탐색 시 <b>질의 유형</b>별 결과 (자사 브랜드 · 유저 성향 · 경쟁사 · 소재)</div>
+      <div class="stat2">
+        <div class="statbox">
+          <div class="top"><div class="big">70<span>%</span></div><div class="cap">기존 <b>관심사·구매의도 타겟</b>에<br>포함되지 않던 신규 유저</div></div>
+          <div class="spread">
+            <div class="sp"><div class="track"><i style="height:62%"></i></div><div class="v">62%</div><div class="l">자사<br>브랜드</div></div>
+            <div class="sp"><div class="track"><i style="height:80%"></i></div><div class="v">80%</div><div class="l">유저<br>성향</div></div>
+            <div class="sp"><div class="track"><i style="height:63%"></i></div><div class="v">63%</div><div class="l">경쟁사</div></div>
+            <div class="sp"><div class="track"><i style="height:76%"></i></div><div class="v">76%</div><div class="l">소재</div></div>
+          </div>
+        </div>
+        <div class="statbox">
+          <div class="top"><div class="big">65<span>%</span></div><div class="cap">최근 <b>우리 브랜드 광고에</b><br>반응한 적 없던 신규(콜드) 유저</div></div>
+          <div class="spread">
+            <div class="sp"><div class="track"><i style="height:46%"></i></div><div class="v">46%</div><div class="l">자사<br>브랜드</div></div>
+            <div class="sp"><div class="track"><i style="height:86%"></i></div><div class="v">86%</div><div class="l">유저<br>성향</div></div>
+            <div class="sp"><div class="track"><i style="height:51%"></i></div><div class="v">51%</div><div class="l">경쟁사</div></div>
+            <div class="sp"><div class="track"><i style="height:78%"></i></div><div class="v">78%</div><div class="l">소재</div></div>
+          </div>
+        </div>
+      </div>
+      <p class="takeaway">→ 가장 전환이 강한 <b>자사 브랜드 타겟조차 62%가 신규 유저</b> — 단순 재도달이 아니라, 새 고객을 전환까지 데려옵니다.</p>
+    </div>
+    <div class="conf">신규 발굴 = 실험 타겟 중 기존 세그먼트 미포함 유저 / 콜드 = 최근 90일 광고주 미반응 유저</div>
+    <div class="page">06</div>
+  </section>
+
+  <!-- 9 성과 사례 -->
+  <section class="slide">
+    <div class="head"><span class="emoji">📊</span><h2>신규 유저인데, 성과까지 앞섭니다</h2></div>
+    <p class="subt gray">동일 캠페인·소재·기간, 기존 세그먼트 대비 AI 자연어 타겟 성과 (CBT 평균)</p>
+    <div class="body">
+      <div class="cmp3">
+        <div class="cmp">
+          <div class="ct">전환율 (CVR)</div>
+          <div class="ratio"><span class="rx">1.7배</span><span class="rt">개선</span></div>
+          <div class="plot">
+            <div class="colw"><div class="col gray" style="height:48%"><span class="cv">4.2%</span></div><div class="cl">기존<br>세그먼트</div></div>
+            <div class="colw"><div class="col blue" style="height:82%"><span class="cv">7.2%</span></div><div class="cl">AI<br>타겟</div></div>
+          </div>
+        </div>
+        <div class="cmp">
+          <div class="ct">ROAS</div>
+          <div class="ratio"><span class="rx">2.7배</span><span class="rt">개선</span></div>
+          <div class="plot">
+            <div class="colw"><div class="col gray" style="height:30%"><span class="cv">129%</span></div><div class="cl">기존<br>세그먼트</div></div>
+            <div class="colw"><div class="col blue" style="height:82%"><span class="cv">350%</span></div><div class="cl">AI<br>타겟</div></div>
+          </div>
+        </div>
+        <div class="cmp">
+          <div class="ct">콜드 유저 전환율</div>
+          <div class="ratio"><span class="rx">1.8배</span><span class="rt">개선</span></div>
+          <div class="plot">
+            <div class="colw"><div class="col gray" style="height:46%"><span class="cv">2.07%</span></div><div class="cl">기존<br>세그먼트</div></div>
+            <div class="colw"><div class="col blue" style="height:82%"><span class="cv">3.73%</span></div><div class="cl">AI<br>타겟</div></div>
+          </div>
+        </div>
+      </div>
+      <p class="takeaway">→ 넓게 <b>신규를 발굴</b>하면서도, <b>오래 반응 없던 콜드 유저 전환</b>까지 기존 타겟을 앞섭니다.</p>
+    </div>
+    <div class="page">07</div>
+  </section>
+
+  <!-- 10 집행 프로세스 -->
+  <section class="slide">
+    <div class="head"><span class="emoji">⚡</span><h2>집행 프로세스</h2></div>
+    <p class="subt gray">복잡한 준비 없이, 라이브 희망 최소 1주일 전에만 요청하면 됩니다.</p>
+    <div class="body">
+      <div class="flow">
+        <div class="fstep"><div class="ball">테스트<br>확정</div><div class="fl">타겟·예산·기간 협의</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="ball">세그먼트<br>생성</div><div class="fl">자연어로 타겟 구성</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="ball">세그먼트<br>반영</div><div class="fl">계정 내 타겟 연동</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="ball">테스트<br>라이브</div><div class="fl">전환 목적 집행 추천</div></div>
+      </div>
+      <div class="proc-callout">🕐 라이브 희망 <b>최소 1주일 전 요청</b>이면 세그먼트 생성·반영·집행까지 준비됩니다.</div>
+    </div>
+    <div class="page">08</div>
+  </section>
+
+  <!-- 9 세그먼트 운영 가이드 -->
+  <section class="slide">
+    <div class="head"><span class="emoji">🧩</span><h2>세그먼트 운영 가이드</h2></div>
+    <p class="subt gray">집행 예산에 맞춰 활용 가능한 세그먼트(타겟) 수가 정해집니다.</p>
+    <div class="body">
+      <div class="rule">
+        <div class="rule-card">
+          <div class="rlab">최소 집행 예산</div>
+          <div class="rval">월 1,000만원</div>
+        </div>
+        <div class="rule-op">→</div>
+        <div class="rule-card hl">
+          <div class="rlab">1,000만원당</div>
+          <div class="rval">세그먼트 2개<span>까지</span></div>
+        </div>
+      </div>
+      <div class="why"><b>왜 개수가 정해지나요?</b><br>세그먼트별 성과를 정확히 확인하려면 세그먼트마다 광고그룹을 나눠 운영해야 하고,<br>각 그룹이 유의미한 데이터를 쌓으려면 그룹당 최소 예산이 필요하기 때문입니다.</div>
+    </div>
+    <div class="page">09</div>
+  </section>
+
+  <!-- 10 감사합니다 -->
+  <section class="slide close">
+    <div class="c-inner">
+      <h1>감사합니다</h1>
+      <p>NAVER GFA · 커스텀 타겟팅</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button id="prev" aria-label="이전">‹</button>
+  <div class="dots" id="dots"></div>
+  <span class="counter" id="counter">1 / 11</span>
+  <button id="next" aria-label="다음">›</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  const counter=document.getElementById('counter');
+  const prev=document.getElementById('prev'), next=document.getElementById('next');
+  let i=0;
+  slides.forEach((_,k)=>{const d=document.createElement('div');d.className='dot'+(k===0?' active':'');d.onclick=()=>go(k);dotsWrap.appendChild(d);});
+  const dots=[...dotsWrap.children];
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    dots.forEach((d,k)=>d.classList.toggle('active',k===i));
+    counter.textContent=(i+1)+' / '+slides.length;
+    prev.disabled=i===0;next.disabled=i===slides.length-1;
+  }
+  prev.onclick=()=>go(i-1);next.onclick=()=>go(i+1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='PageDown')go(i+1);
+    else if(e.key==='ArrowLeft'||e.key==='PageUp')go(i-1);
+    else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+    else if(e.key==='p'||e.key==='P')window.print();
+  });
+  go(0);
+</script>
+</body>
+</html>
