@@ -208,6 +208,70 @@
   .dleg span{display:inline-flex;align-items:center;gap:5px}
   .dleg i{width:10px;height:10px;border-radius:3px;display:inline-block}
 
+  /* UTA live demo */
+  .uta-demo{display:grid;grid-template-columns:1fr 1.15fr;gap:36px;margin-top:8px;align-items:center}
+  .uta-qlab{font-size:12px;font-weight:800;color:var(--gray-l);margin-bottom:10px}
+  .uta-q{background:var(--blue);color:#fff;border-radius:16px 16px 4px 16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}
+  .uta-res{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px}
+  .uta-res .rtitle{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}
+  .uta-res .rmeta{font-size:12.5px;color:var(--gray);margin:6px 0 14px}
+  .uta-res .rmeta b{color:var(--blue-d)}
+  .uta-prof{font-size:13px;color:var(--gray);line-height:1.7;padding-left:18px;margin:0}
+  .demo-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+  .demo-card{background:var(--tint);border-radius:10px;padding:12px 8px;text-align:center}
+  .demo-card .dc-ic{font-size:20px}
+  .demo-card .dc-v{font-size:14.5px;font-weight:800;color:var(--ink);margin-top:4px}
+  .demo-card .dc-l{font-size:10.5px;color:var(--gray-l);margin-top:2px}
+
+  /* data range compare (chips) */
+  .dcompare{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+  .datarow{display:grid;grid-template-columns:210px 1fr;gap:24px;align-items:center;border-radius:16px;padding:20px 26px}
+  .datarow.gam{background:var(--tint);border:1px solid var(--line)}
+  .datarow.uta{background:#EAF1FF;border:1.5px solid var(--blue-l)}
+  .dr-lab .nm{font-size:16px;font-weight:800;color:var(--ink)}
+  .datarow.uta .dr-lab .nm{color:var(--blue-d)}
+  .dr-lab .cnt{font-size:15px;font-weight:700;color:var(--gray);margin-top:8px}
+  .dr-lab .cnt b{font-size:27px;color:var(--gray);letter-spacing:-.02em}
+  .datarow.uta .dr-lab .cnt b{color:var(--blue-d)}
+  .dr-lab .per{font-size:12px;color:var(--gray-l);font-weight:700;margin-top:5px}
+  .datarow.uta .dr-lab .per{color:var(--blue-d)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip2{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:22px;font-size:13px;font-weight:700}
+  .chip2.on{background:var(--blue);color:#fff}
+  .chip2.off{background:#E7EBF2;color:#BBC2CE}
+
+  /* live results */
+  .live2{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:8px}
+  .livecard{background:var(--tint);border-radius:18px;padding:26px 28px;display:flex;flex-direction:column;justify-content:flex-start}
+  .livecard.hl{background:#EAF1FF;border:1.5px solid var(--blue-l)}
+  .lv-brand{font-size:16px;font-weight:800;color:var(--ink)}
+  .lv-sub{font-size:11.5px;color:var(--gray-l);font-weight:700;margin:2px 0 16px}
+  .lv-hero{font-size:44px;font-weight:800;color:var(--blue-d);line-height:1;letter-spacing:-.02em}
+  .lv-hero span{font-size:20px;color:var(--gray)}
+  .lv-herolab{font-size:12.5px;color:var(--gray);font-weight:700;margin-top:6px}
+  .lv-stats{display:flex;gap:8px;margin-top:18px}
+  .lv-stat{flex:1;background:#fff;border-radius:10px;padding:12px 6px;text-align:center}
+  .lv-stat .s-v{font-size:15px;font-weight:800;color:var(--ink)}
+  .lv-stat .s-v em{font-style:normal;font-weight:700;color:var(--gray-l);font-size:11px}
+  .lv-stat .s-l{font-size:10px;color:var(--gray-l);margin-top:3px}
+  .spend-bar{margin-top:18px}
+  .sb-top{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--gray);margin-bottom:7px}
+  .sb-top b{color:var(--blue-d);font-size:14px}
+  .sb-track{height:14px;background:#DCE4F2;border-radius:7px;overflow:hidden}
+  .sb-fill{height:100%;background:linear-gradient(90deg,var(--blue-l),var(--blue));border-radius:7px}
+  .sb-cap{font-size:11px;color:var(--gray-l);margin-top:8px;line-height:1.4}
+  .ncbars{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+  .ncbars .nct{font-size:12px;font-weight:700;color:var(--gray);text-align:center;margin-bottom:16px;line-height:1.4}
+  .ncbars .nct b{color:var(--blue-d);font-size:13.5px;display:block;margin-top:2px}
+  .ncbars .plot2{position:relative;height:118px;display:flex;align-items:flex-end;justify-content:center;gap:22px}
+  .ncbars .colw2{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .ncbars .col2{width:48px;border-radius:7px 7px 0 0;position:relative}
+  .ncbars .col2.gray{background:var(--graybar)}
+  .ncbars .col2.blue{background:linear-gradient(180deg,var(--blue-l),var(--blue))}
+  .ncbars .col2 .cv2{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:var(--ink);white-space:nowrap}
+  .ncbars .col2.blue .cv2{color:var(--blue-d)}
+  .ncbars .cl2{font-size:10.5px;color:var(--gray);margin-top:8px;font-weight:700;text-align:center;line-height:1.2}
+
   /* nav */
   .nav{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;
     background:#fff;border:1px solid var(--line);border-radius:40px;padding:7px 15px;box-shadow:var(--shadow);z-index:20}
@@ -303,7 +367,82 @@
     <div class="page">04</div>
   </section>
 
-  <!-- 5 리타겟팅과 신규 도달 사이 -->
+  <!-- 5 UTA 실사용 화면 -->
+  <section class="slide">
+    <div class="head"><span class="emoji">🖥️</span><h2>실제로는, 이렇게 자연어로 찾습니다</h2></div>
+    <p class="subt gray">원하는 고객을 문장으로 입력하면 AI가 유저 그룹과 프로파일을 만들어 줍니다. (실제 화면 예시)</p>
+    <div class="body">
+      <div class="uta-demo">
+        <div>
+          <div class="uta-qlab">🗣️ 이렇게 입력하면</div>
+          <div class="uta-q">러닝·조깅·사이클링·등산·헬스·수영 등 운동을 하고, 음악을 들어 이어폰이 필요한 여성 유저 찾아줘.</div>
+        </div>
+        <div class="uta-res">
+          <div class="rtitle"><span>🤖</span> 운동·오디오 관심 여성층</div>
+          <div class="rmeta">분석 유저 <b>31,446명</b> · 광고 집행 가능</div>
+          <ul class="uta-prof">
+            <li>여성 100%, 40대 중심 분포</li>
+            <li>운동 콘텐츠 + 이어폰·헤드셋 콘텐츠에 함께 반응</li>
+            <li>탐색 후 쇼핑 클릭·구매 전환 경향</li>
+          </ul>
+          <div class="demo-cards">
+            <div class="demo-card"><div class="dc-ic">👤</div><div class="dc-v">40·30대</div><div class="dc-l">주요 연령</div></div>
+            <div class="demo-card"><div class="dc-ic">👩</div><div class="dc-v">여성 100%</div><div class="dc-l">성별</div></div>
+            <div class="demo-card"><div class="dc-ic">📍</div><div class="dc-v">서울·경기</div><div class="dc-l">주요 지역</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page">05</div>
+  </section>
+
+  <!-- 6 GAM vs UTA 데이터 범위 -->
+  <section class="slide">
+    <div class="head"><span class="emoji">🗂️</span><h2>UTA는 더 넓은 데이터로 찾습니다</h2></div>
+    <p class="subt gray">기존 커스텀 타겟과 AI 자연어(UTA)의 활용 데이터 범위 차이</p>
+    <div class="body">
+      <div class="dcompare">
+        <div class="datarow gam">
+          <div class="dr-lab">
+            <div class="nm">기존 커스텀 타겟</div>
+            <div class="cnt"><b>3</b>종 활용</div>
+            <div class="per">데이터 기간 · 최근 1년</div>
+          </div>
+          <div class="chips">
+            <span class="chip2 on">📣 광고 반응</span>
+            <span class="chip2 on">🛒 쇼핑 구매</span>
+            <span class="chip2 on">💬 카페</span>
+            <span class="chip2 off">🔍 통합검색</span>
+            <span class="chip2 off">📝 블로그</span>
+            <span class="chip2 off">👀 쇼핑 조회</span>
+            <span class="chip2 off">🧺 장바구니</span>
+            <span class="chip2 off">🚗 차량</span>
+          </div>
+        </div>
+        <div class="datarow uta">
+          <div class="dr-lab">
+            <div class="nm">AI 자연어 (UTA)</div>
+            <div class="cnt"><b>8</b>종 전 영역</div>
+            <div class="per">최근 1개월 → 유사 유저 확장</div>
+          </div>
+          <div class="chips">
+            <span class="chip2 on">📣 광고 반응</span>
+            <span class="chip2 on">🛒 쇼핑 구매</span>
+            <span class="chip2 on">💬 카페</span>
+            <span class="chip2 on">🔍 통합검색</span>
+            <span class="chip2 on">📝 블로그</span>
+            <span class="chip2 on">👀 쇼핑 조회</span>
+            <span class="chip2 on">🧺 장바구니</span>
+            <span class="chip2 on">🚗 차량</span>
+          </div>
+        </div>
+      </div>
+      <p class="takeaway">→ UTA는 <b>더 다양한 행동 데이터(8종)</b>를 활용하고, <b>최신 1개월 데이터를 시드로 확장</b>해 지금 반응하는 고객을 찾아냅니다.</p>
+    </div>
+    <div class="page">06</div>
+  </section>
+
+  <!-- 7 리타겟팅과 신규 도달 사이 -->
   <section class="slide">
     <div class="head"><span class="emoji">🔀</span><h2>리타겟팅과 신규 도달, 그 사이를 채웁니다</h2></div>
     <p class="subt gray">리타겟팅은 이미 확보한 유저풀 안에서만 광고합니다. AI 자연어 타겟은 내 광고에 반응한 적 없는 신규 유저까지 발굴해 전환을 만듭니다.</p>
@@ -318,7 +457,7 @@
         <div class="scard"><h4>리타겟팅</h4><p>전환은 강하지만, 이미 잡아둔 유저풀 안에서만 도는 광고라 확장이 없습니다.</p></div>
       </div>
     </div>
-    <div class="page">05</div>
+    <div class="page">07</div>
   </section>
 
   <!-- 6 신규 발굴 -->
@@ -340,7 +479,7 @@
       </div>
     </div>
     <div class="conf">신규 = 기존 관심사·구매의도 세그먼트 비중복 / 미반응(콜드) = 최근 90일 자사 광고 클릭·반응 없음 · 자연어 질의 유형 4종 CBT 평균</div>
-    <div class="page">06</div>
+    <div class="page">08</div>
   </section>
 
   <!-- 9 성과 사례 -->
@@ -376,10 +515,53 @@
       </div>
       <p class="takeaway">→ 넓게 <b>신규를 발굴</b>하면서도, <b>오래 반응 없던 콜드 유저 전환</b>까지 기존 타겟을 앞섭니다.</p>
     </div>
-    <div class="page">07</div>
+    <div class="page">09</div>
   </section>
 
-  <!-- 10 집행 프로세스 -->
+  <!-- 10 실집행 성과 -->
+  <section class="slide">
+    <div class="head"><span class="emoji">🚀</span><h2>1억+ 대형 예산도, 성과로 소진됩니다</h2></div>
+    <p class="subt gray">소액으로 나눠 쓸 필요 없이 — 대형 예산도 안정적으로 소진되며 성과까지 (삼성전자 갤럭시 · NC 리니지M)</p>
+    <div class="body">
+      <div class="live2">
+        <div class="livecard hl">
+          <div class="lv-brand">삼성전자 갤럭시</div>
+          <div class="lv-sub">AI 자연어 타겟 · 1억+ 실집행</div>
+          <div class="lv-hero">3,853<span>%</span></div>
+          <div class="lv-herolab">구매 ROAS</div>
+          <div class="lv-stats">
+            <div class="lv-stat"><div class="s-v">1억+</div><div class="s-l">집행 규모</div></div>
+            <div class="lv-stat"><div class="s-v">2.5%</div><div class="s-l">구매 전환율</div></div>
+            <div class="lv-stat"><div class="s-v">994원</div><div class="s-l">CPC</div></div>
+          </div>
+        </div>
+        <div class="livecard">
+          <div class="lv-brand">NC 리니지M</div>
+          <div class="lv-sub">AI 자연어(UTA) vs 대조군 데모 · A/B 대조실험</div>
+          <div class="ncbars">
+            <div>
+              <div class="nct">전환율 (CVR) <b>UTA 5.9배 ↑</b></div>
+              <div class="plot2">
+                <div class="colw2"><div class="col2 gray" style="height:12%"><span class="cv2">0.19%</span></div><div class="cl2">대조<br>(데모)</div></div>
+                <div class="colw2"><div class="col2 blue" style="height:68%"><span class="cv2">1.12%</span></div><div class="cl2">UTA</div></div>
+              </div>
+            </div>
+            <div>
+              <div class="nct">전환당 비용 (CPA) <b>UTA ¼ 수준 ↓</b></div>
+              <div class="plot2">
+                <div class="colw2"><div class="col2 gray" style="height:68%"><span class="cv2">28.3만</span></div><div class="cl2">대조<br>(데모)</div></div>
+                <div class="colw2"><div class="col2 blue" style="height:17%"><span class="cv2">7.2만</span></div><div class="cl2">UTA</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="takeaway">→ <b>1억+ 대형 예산도 소액 분산 없이 소진</b>되고, 삼성전자 갤럭시 <b>구매 ROAS 3,853%</b> · NC 리니지M <b>전환율 5.9배·CPA ¼</b>로 성과까지 이어졌습니다.</p>
+    </div>
+    <div class="page">10</div>
+  </section>
+
+  <!-- 11 집행 프로세스 -->
   <section class="slide">
     <div class="head"><span class="emoji">⚡</span><h2>집행 프로세스</h2></div>
     <p class="subt gray">복잡한 준비 없이, 라이브 희망 최소 1주일 전에만 요청하면 됩니다.</p>
@@ -395,7 +577,7 @@
       </div>
       <div class="proc-callout">🕐 라이브 희망 <b>최소 1주일 전 요청</b>이면 세그먼트 생성·반영·집행까지 준비됩니다.</div>
     </div>
-    <div class="page">08</div>
+    <div class="page">11</div>
   </section>
 
   <!-- 9 세그먼트 운영 가이드 -->
@@ -416,7 +598,7 @@
       </div>
       <div class="why"><b>왜 개수가 정해지나요?</b><br>세그먼트별 성과를 정확히 확인하려면 세그먼트마다 광고그룹을 나눠 운영해야 하고,<br>각 그룹이 유의미한 데이터를 쌓으려면 그룹당 최소 예산이 필요하기 때문입니다.</div>
     </div>
-    <div class="page">09</div>
+    <div class="page">12</div>
   </section>
 
   <!-- 10 감사합니다 -->
